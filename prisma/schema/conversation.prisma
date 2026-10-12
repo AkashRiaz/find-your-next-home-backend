@@ -1,0 +1,26 @@
+model Conversation {
+  id              String    @id @default(uuid()) @db.Uuid
+
+  propertyId      String    @db.Uuid
+  seekerId        String    @db.Uuid
+
+  // Used for unread message tracking
+  seekerLastReadAt DateTime?
+  ownerLastReadAt  DateTime?
+
+  lastMessageAt   DateTime?
+
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  property        Property @relation( fields: [propertyId], references: [id])
+
+  seeker          User @relation( "SeekerConversations",fields: [seekerId],references: [id])
+
+  messages        Message[]
+
+  @@unique([propertyId, seekerId])
+  @@index([seekerId, lastMessageAt])
+  @@index([propertyId, lastMessageAt])
+  @@map("conversations")
+}

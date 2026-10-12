@@ -1,0 +1,57 @@
+model User {
+  id              String     @id @default(uuid()) @db.Uuid
+
+  name            String     @db.VarChar(150)
+  email           String     @unique @db.VarChar(255)
+  password        String
+
+  phone           String?    @unique @db.VarChar(20)
+  avatarUrl       String?
+  avatarPublicId  String?
+
+  bio             String?    @db.Text
+
+  role            UserRole   @default(USER)
+  status          UserStatus @default(ACTIVE)
+
+  isEmailVerified   Boolean   @default(false)
+
+  emailVerifiedAt DateTime?
+  phoneVerifiedAt DateTime?
+
+  lastLoginAt     DateTime?
+
+  isDeleted       Boolean    @default(false)
+  deletedAt       DateTime?
+
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+
+  // Relationships
+  refreshTokens      RefreshToken[]
+
+  properties         Property[]
+
+  favorites          Favorite[]
+
+  conversations      Conversation[] @relation("SeekerConversations")
+
+  sentMessages       Message[]
+
+  notifications      Notification[] @relation("UserNotifications")
+  triggeredNotifications Notification[] @relation("NotificationActor")
+
+  blockedUsers       UserBlock[] @relation("Blocker")
+  blockedByUsers     UserBlock[] @relation("BlockedUser")
+
+  submittedReports   Report[] @relation("ReportSubmittedBy")
+  receivedReports    Report[] @relation("ReportedUser")
+
+  moderationActions  ModerationAction[] @relation("ModeratorActions")
+  moderatedByActions ModerationAction[] @relation("ModeratedUser")
+
+  @@index([role])
+  @@index([status])
+  @@index([createdAt])
+  @@map("users")
+}

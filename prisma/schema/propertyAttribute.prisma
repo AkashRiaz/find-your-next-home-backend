@@ -1,0 +1,17 @@
+model PropertyAttribute {
+  id          String   @id @default(uuid()) @db.Uuid
+
+  propertyId  String   @db.Uuid
+
+  key         String   @db.VarChar(100)
+  value       Json     @db.JsonB
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  property    Property @relation(fields: [propertyId], references: [id],onDelete: Cascade)
+
+  @@unique([propertyId, key])
+  @@index([key])
+  @@map("property_attributes")
+}

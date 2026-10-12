@@ -1,0 +1,29 @@
+model ModerationAction {
+  id          String               @id @default(uuid()) @db.Uuid
+
+  adminId     String               @db.Uuid
+
+  reportId    String?              @db.Uuid
+  propertyId  String?              @db.Uuid
+  targetUserId String?             @db.Uuid
+
+  action      ModerationActionType
+
+  reason      String?              @db.Text
+
+  createdAt   DateTime             @default(now())
+
+  admin       User @relation( "ModeratorActions", fields: [adminId], references: [id])
+
+  targetUser  User? @relation("ModeratedUser", fields: [targetUserId], references: [id])
+
+  report      Report? @relation( fields: [reportId], references: [id])
+
+  property    Property? @relation(fields: [propertyId], references: [id])
+
+  @@index([adminId, createdAt])
+  @@index([reportId])
+  @@index([propertyId])
+  @@index([targetUserId])
+  @@map("moderation_actions")
+}

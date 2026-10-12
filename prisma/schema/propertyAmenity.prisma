@@ -1,0 +1,12 @@
+model PropertyAmenity {
+  propertyId String @db.Uuid
+  amenityId  String @db.Uuid
+
+  property   Property @relation(fields: [propertyId],references: [id], onDelete: Cascade )
+
+  amenity    Amenity @relation( fields: [amenityId], references: [id])
+
+  @@id([propertyId, amenityId])
+  @@index([amenityId])
+  @@map("property_amenities")
+}

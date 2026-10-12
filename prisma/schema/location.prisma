@@ -1,0 +1,26 @@
+model Location {
+  id        String       @id @default(uuid()) @db.Uuid
+
+  name      String       @db.VarChar(150)
+  slug      String       @db.VarChar(160)
+  type      LocationType
+
+  parentId  String?      @db.Uuid
+
+  isActive  Boolean      @default(true)
+
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+
+  parent    Location? @relation("LocationHierarchy", fields: [parentId],references: [id] )
+
+  children  Location[] @relation("LocationHierarchy")
+
+  properties Property[]
+
+  @@unique([parentId, slug])
+  @@index([parentId])
+  @@index([type])
+  @@index([name])
+  @@map("locations")
+}

@@ -1,0 +1,38 @@
+model Report {
+  id             String       @id @default(uuid()) @db.Uuid
+
+  reporterId     String       @db.Uuid
+
+  // Exactly one target should be selected
+  propertyId     String?      @db.Uuid
+  reportedUserId String?      @db.Uuid
+  messageId      String?      @db.Uuid
+
+  reason         ReportReason
+  description    String?      @db.Text
+
+  status         ReportStatus @default(PENDING)
+
+  resolutionNote String?      @db.Text
+  resolvedAt     DateTime?
+
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  reporter       User @relation( "ReportSubmittedBy",fields: [reporterId],references: [id])
+
+  reportedUser   User? @relation("ReportedUser", fields: [reportedUserId],references: [id] )
+
+  property       Property? @relation( fields: [propertyId], references: [id])
+
+  message        Message? @relation( fields: [messageId], references: [id])
+
+  moderationActions ModerationAction[]
+
+  @@index([reporterId])
+  @@index([propertyId])
+  @@index([reportedUserId])
+  @@index([messageId])
+  @@index([status, createdAt])
+  @@map("reports")
+}

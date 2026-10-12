@@ -1,0 +1,20 @@
+model PropertyImage {
+  id          String   @id @default(uuid()) @db.Uuid
+
+  propertyId  String   @db.Uuid
+
+  imageUrl    String
+  publicId    String?
+
+  altText     String?  @db.VarChar(255)
+
+  isCover     Boolean  @default(false)
+  sortOrder   Int      @default(0)
+
+  createdAt   DateTime @default(now())
+
+  property    Property @relation( fields: [propertyId], references: [id], onDelete: Cascade )
+
+  @@index([propertyId, sortOrder])
+  @@map("property_images")
+}

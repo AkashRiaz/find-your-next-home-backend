@@ -1,0 +1,101 @@
+enum UserRole {
+  USER
+  ADMIN
+  SUPER_ADMIN
+}
+
+enum UserStatus {
+  ACTIVE
+  SUSPENDED
+  DEACTIVATED
+}
+
+enum LocationType {
+  COUNTRY
+  DIVISION
+  DISTRICT
+  UPAZILA
+  UNION
+  AREA
+}
+
+enum AdvertiserType {
+  OWNER
+  MANAGER
+  AGENT
+  SUBLETTER
+}
+
+enum PropertyType {
+  RESIDENTIAL
+  SHARED
+  COMMERCIAL
+}
+
+enum ListingStatus {
+  DRAFT
+  PUBLISHED
+  RENTED
+  ARCHIVED
+  SUSPENDED
+}
+
+enum FurnishingStatus {
+  FURNISHED
+  SEMI_FURNISHED
+  UNFURNISHED
+}
+
+enum PreferredTenant {
+  ANY
+  FAMILY
+  BACHELOR
+  STUDENT
+  PROFESSIONAL
+}
+
+
+enum GenderPreference {
+  ANY
+  MALE
+  FEMALE
+}
+
+
+enum MessageType {
+  TEXT
+  SYSTEM
+}
+
+enum NotificationType {
+  NEW_MESSAGE
+  LISTING_PUBLISHED
+  LISTING_SUSPENDED
+  REPORT_UPDATE
+  SYSTEM
+}
+
+enum ReportReason {
+  FAKE_LISTING
+  INCORRECT_INFORMATION
+  SCAM
+  SPAM
+  HARASSMENT
+  INAPPROPRIATE_CONTENT
+  OTHER
+}
+
+enum ReportStatus {
+  PENDING
+  REVIEWING
+  RESOLVED
+  DISMISSED
+}
+
+enum ModerationActionType {
+  WARNING
+  SUSPEND_LISTING
+  RESTORE_LISTING
+  SUSPEND_USER
+  RESTORE_USER
+}
