@@ -4,7 +4,10 @@ import { AuthRoutes } from "./app/modules/auth/auth.route";
 import cors from "cors";
 import { UserRoutes } from "./app/modules/user/user.route";
 import { LocationRoutes } from "./app/modules/location/location.route";
-import { errorHandler } from "./app/middleware/errorHandler";
+import { AmenityRoutes } from "./app/modules/amenity/amenity.route";
+import { PropertyCategoryRoutes } from "./app/modules/propertyCategory/propertyCategory.route";
+import { globalErrorHandler } from "./app/middleware/globalErrorHandler";
+import { notFound } from "./app/middleware/notFound";
 import cookieParser from "cookie-parser";
 
 dotenv.config();
@@ -28,6 +31,9 @@ app.get("/", (req: Request, res: Response) => {
 app.use("/api/v1/auth", AuthRoutes);
 app.use("/api/v1/users", UserRoutes);
 app.use("/api/v1/locations", LocationRoutes);
-app.use(errorHandler);
+app.use("/api/v1/amenities", AmenityRoutes);
+app.use("/api/v1/property-categories", PropertyCategoryRoutes);
+app.use(notFound);
+app.use(globalErrorHandler);
 
 export default app;

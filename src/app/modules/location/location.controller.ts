@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import type { Request, Response } from "express";
 import httpStatus from "http-status";
 import { catchAsync } from "../../utils/catchAsync";
 import { sendResponse } from "../../utils/rendResponse";
@@ -11,20 +11,13 @@ import {
   updateLocationStatusBodySchema,
 } from "./location.validation";
 
-const createLocation = catchAsync(async (req: Request, res: Response) => {
-  const payload = createLocationBodySchema.parse(req.body);
-  const result = await LocationService.createLocation(payload);
-  sendResponse(res, {
-    success: true,
-    statusCode: httpStatus.CREATED,
-    message: "Location created successfully",
-    data: result,
-  });
-});
+// Each handler validates its input with Zod; a ZodError is turned into
+// a 400 response by the global error handler.
 
 const getAllLocations = catchAsync(async (req: Request, res: Response) => {
   const query = getLocationsQuerySchema.parse(req.query);
   const result = await LocationService.getAllLocations(query);
+
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,
@@ -36,6 +29,7 @@ const getAllLocations = catchAsync(async (req: Request, res: Response) => {
 const getSingleLocation = catchAsync(async (req: Request, res: Response) => {
   const { id } = locationIdParamsSchema.parse(req.params);
   const result = await LocationService.getSingleLocation(id);
+
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,
@@ -47,6 +41,7 @@ const getSingleLocation = catchAsync(async (req: Request, res: Response) => {
 const getChildLocations = catchAsync(async (req: Request, res: Response) => {
   const { id } = locationIdParamsSchema.parse(req.params);
   const result = await LocationService.getChildLocations(id);
+
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,
@@ -55,10 +50,23 @@ const getChildLocations = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const createLocation = catchAsync(async (req: Request, res: Response) => {
+  const payload = createLocationBodySchema.parse(req.body);
+  const result = await LocationService.createLocation(payload);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.CREATED,
+    message: "Location created successfully",
+    data: result,
+  });
+});
+
 const updateLocation = catchAsync(async (req: Request, res: Response) => {
   const { id } = locationIdParamsSchema.parse(req.params);
   const payload = updateLocationBodySchema.parse(req.body);
   const result = await LocationService.updateLocation(id, payload);
+
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,
@@ -71,6 +79,7 @@ const updateLocationStatus = catchAsync(async (req: Request, res: Response) => {
   const { id } = locationIdParamsSchema.parse(req.params);
   const payload = updateLocationStatusBodySchema.parse(req.body);
   const result = await LocationService.updateLocationStatus(id, payload);
+
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,
@@ -80,10 +89,10 @@ const updateLocationStatus = catchAsync(async (req: Request, res: Response) => {
 });
 
 export const LocationController = {
-  createLocation,
   getAllLocations,
   getSingleLocation,
   getChildLocations,
+  createLocation,
   updateLocation,
   updateLocationStatus,
 };

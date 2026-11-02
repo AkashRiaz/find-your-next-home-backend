@@ -1,25 +1,50 @@
-import { LocationType } from "../../../generated/prisma/enums";
 import { z } from "zod";
+import { LocationType } from "../../../generated/prisma/enums";
+import { LOCATION_NAME_MAX_LENGTH } from "./location.constant";
 
-export const getLocationsQuerySchema = z.object({
-  parentId: z.uuid().optional(),
-  type: z.enum(LocationType).optional(),
-  searchTerm: z.string().trim().min(1).max(150).optional(),
+const locationIdSchema = z.uuid({
+  message: "Location id must be a valid UUID",
 });
 
-export const locationIdParamsSchema = z.object({ id: z.uuid() });
+const locationNameSchema = z
+  .string({ message: "Location name is required" })
+  .trim()
+  .min(1, { message: "Location name cannot be empty" })
+  .max(LOCATION_NAME_MAX_LENGTH, {
+    message: `Location name must be at most ${LOCATION_NAME_MAX_LENGTH} characters`,
+  });
 
-export const createLocationBodySchema = z.object({
-  name: z.string().trim().min(1).max(150),
-  type: z.enum(LocationType),
-  parentId: z.uuid().nullable().optional(),
-  isActive: z.boolean().optional(),
-}).strict();
+const locationTypeSchema = z.enum(LocationType, {
+  message: `Location type must be one of: ${Object.values(LocationType).join(", ")}`,
+});
 
-export const updateLocationBodySchema = z.object({
-  name: z.string().trim().min(1).max(150),
-}).strict();
+export const locationIdParamsSchema = z.object({
+  id: locationIdSchema,
+});
 
-export const updateLocationStatusBodySchema = z.object({
-  isActive: z.boolean(),
-}).strict();
+export const getLocationsQuerySchema = z.object({
+  parentId: locationIdSchema.optional(),
+  type: locationTypeSchema.optional(),
+  searchTerm: z.string().trim().min(1).max(LOCATION_NAME_MAX_LENGTH).optional(),
+});
+
+export const createLocationBodySchema = z
+  .object({
+    name: locationNameSchema,
+    type: locationTypeSchema,
+    parentId: locationIdSchema.nullable().optional(),
+    isActive: z.boolean().optional(),
+  })
+  .strict();
+
+export const updateLocationBodySchema = z
+  .object({
+    name: locationNameSchema,
+  })
+  .strict();
+
+export const updateLocationStatusBodySchema = z
+  .object({
+    isActive: z.boolean({ message: "isActive must be true or false" }),
+  })
+  .strict();
