@@ -6,3 +6,6 @@ dist
 /generated/prisma/schema
 
 /generated/prisma
+.agents
+.claude
+.windsurf
