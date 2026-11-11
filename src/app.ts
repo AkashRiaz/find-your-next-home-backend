@@ -11,6 +11,7 @@ import { PropertyAttributeRoutes } from "./app/modules/propertyAttribute/propert
 import { FavoriteRoutes } from "./app/modules/favorite/favorite.route";
 import { ReportRoutes } from "./app/modules/report/report.route";
 import { NotificationRoutes } from "./app/modules/notification/notification.route";
+import { UserBlockRoutes } from "./app/modules/userBlock/userBlock.route";
 import { globalErrorHandler } from "./app/middleware/globalErrorHandler";
 import { notFound } from "./app/middleware/notFound";
 import cookieParser from "cookie-parser";
@@ -46,6 +47,7 @@ app.use("/api/v1/properties", PropertyRoutes);
 app.use("/api/v1/favorites", FavoriteRoutes);
 app.use("/api/v1/reports", ReportRoutes);
 app.use("/api/v1/notifications", NotificationRoutes);
+app.use("/api/v1/user-blocks", UserBlockRoutes);
 app.use(notFound);
 app.use(globalErrorHandler);
 
