@@ -15,6 +15,7 @@ import { UserBlockRoutes } from "./app/modules/userBlock/userBlock.route";
 import { ConversationRoutes } from "./app/modules/conversation/conversation.route";
 import { MessageRoutes } from "./app/modules/message/message.route";
 import { ModerationActionRoutes } from "./app/modules/moderationAction/moderationAction.route";
+import { PropertyImageRoutes } from "./app/modules/propertyImage/propertyImage.route";
 import { globalErrorHandler } from "./app/middleware/globalErrorHandler";
 import { notFound } from "./app/middleware/notFound";
 import cookieParser from "cookie-parser";
@@ -46,6 +47,7 @@ app.use(
   "/api/v1/properties/:propertyId/attributes",
   PropertyAttributeRoutes,
 );
+app.use("/api/v1/properties/:propertyId/images", PropertyImageRoutes);
 app.use("/api/v1/properties", PropertyRoutes);
 app.use("/api/v1/favorites", FavoriteRoutes);
 app.use("/api/v1/reports", ReportRoutes);
