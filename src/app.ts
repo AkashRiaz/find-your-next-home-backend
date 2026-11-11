@@ -9,6 +9,7 @@ import { PropertyCategoryRoutes } from "./app/modules/propertyCategory/propertyC
 import { PropertyRoutes } from "./app/modules/property/property.route";
 import { PropertyAttributeRoutes } from "./app/modules/propertyAttribute/propertyAttribute.route";
 import { FavoriteRoutes } from "./app/modules/favorite/favorite.route";
+import { ReportRoutes } from "./app/modules/report/report.route";
 import { globalErrorHandler } from "./app/middleware/globalErrorHandler";
 import { notFound } from "./app/middleware/notFound";
 import cookieParser from "cookie-parser";
@@ -42,6 +43,7 @@ app.use(
 );
 app.use("/api/v1/properties", PropertyRoutes);
 app.use("/api/v1/favorites", FavoriteRoutes);
+app.use("/api/v1/reports", ReportRoutes);
 app.use(notFound);
 app.use(globalErrorHandler);
 
