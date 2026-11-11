@@ -6,6 +6,9 @@ import { UserRoutes } from "./app/modules/user/user.route";
 import { LocationRoutes } from "./app/modules/location/location.route";
 import { AmenityRoutes } from "./app/modules/amenity/amenity.route";
 import { PropertyCategoryRoutes } from "./app/modules/propertyCategory/propertyCategory.route";
+import { PropertyRoutes } from "./app/modules/property/property.route";
+import { PropertyAttributeRoutes } from "./app/modules/propertyAttribute/propertyAttribute.route";
+import { FavoriteRoutes } from "./app/modules/favorite/favorite.route";
 import { globalErrorHandler } from "./app/middleware/globalErrorHandler";
 import { notFound } from "./app/middleware/notFound";
 import cookieParser from "cookie-parser";
@@ -33,6 +36,12 @@ app.use("/api/v1/users", UserRoutes);
 app.use("/api/v1/locations", LocationRoutes);
 app.use("/api/v1/amenities", AmenityRoutes);
 app.use("/api/v1/property-categories", PropertyCategoryRoutes);
+app.use(
+  "/api/v1/properties/:propertyId/attributes",
+  PropertyAttributeRoutes,
+);
+app.use("/api/v1/properties", PropertyRoutes);
+app.use("/api/v1/favorites", FavoriteRoutes);
 app.use(notFound);
 app.use(globalErrorHandler);
 

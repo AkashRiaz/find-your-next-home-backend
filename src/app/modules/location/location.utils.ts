@@ -240,3 +240,29 @@ export const ensureNoActiveDescendants = async (
     for (const id of idsToCheck) visitedIds.add(id);
   }
 };
+
+/**
+ * Returns `locationId` plus the ids of all its active descendants,
+ * so searching "Magura" also finds properties in its upazilas and areas.
+ */
+export const getActiveLocationAndDescendantIds = async (
+  locationId: string,
+): Promise<string[]> => {
+  const collectedIds = new Set<string>([locationId]);
+  let parentIds = [locationId];
+
+  while (parentIds.length > 0) {
+    const children = await prisma.location.findMany({
+      where: { parentId: { in: parentIds }, isActive: true },
+      select: { id: true },
+    });
+
+    parentIds = children
+      .map((child) => child.id)
+      .filter((id) => !collectedIds.has(id));
+
+    for (const id of parentIds) collectedIds.add(id);
+  }
+
+  return [...collectedIds];
+};
